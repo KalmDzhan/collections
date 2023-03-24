@@ -1,32 +1,25 @@
-﻿using StudentRepos;
+using StudentRepos;
 
 StudentRepository repository = new StudentRepository();
-
-int id = 1;
 
 string firstName;
 string lastName;
 string group;
 
-repository.Insert(new Student { Id = id, FirstName = "Макс", LastName = "Пейн", Group = "21Д" });
-id++;
-repository.Insert(new Student { Id = id, FirstName = "Чад", LastName = "Гигов", Group = "21Д" });
-id++;
-repository.Insert(new Student { Id = id, FirstName = "Гоку", LastName = "Сон", Group = "21Д" });
-id++;
-repository.Insert(new Student { Id = id, FirstName = "Тони", LastName = "Сварка", Group = "21Д" });
-id++;
-repository.Insert(new Student { Id = id, FirstName = "Гон", LastName = "Фладд", Group = "21Д" });
-id++;
+repository.Insert(new Student { FirstName = "Макс", LastName = "Пейн", Group = "21Д" });
+repository.Insert(new Student { FirstName = "Чад", LastName = "Гигов", Group = "21Д" });
+repository.Insert(new Student { FirstName = "Гоку", LastName = "Сон", Group = "21Д" });
+repository.Insert(new Student { FirstName = "Тони", LastName = "Сварка", Group = "21Д" });
+repository.Insert(new Student { FirstName = "Гон", LastName = "Фладд", Group = "21Д" });
 
 //GetAll
 Console.WriteLine("\nGetAll");
 
 List<Student> studentsList = repository.GetAll();
 Console.WriteLine("Студенты:");
-foreach (Student student in studentsList)
+for (int i = 0; i < studentsList.Count; i++)
 {
-    Console.WriteLine($"Id {student.Id}| {student.LastName} {student.FirstName} {student.Group}");
+    Console.WriteLine($"Id {studentsList.IndexOf(studentsList[i]) + 1}| {studentsList[i].LastName} {studentsList[i].FirstName} {studentsList[i].Group}");
 }
 
 //GetById
@@ -48,8 +41,7 @@ lastName = Console.ReadLine();
 Console.Write("Группа: ");
 group = Console.ReadLine();
 
-repository.Insert(new Student { Id = id, FirstName = firstName, LastName = lastName, Group = group });
-id++;
+repository.Insert(new Student { FirstName = firstName, LastName = lastName, Group = group });
 
 //Delete
 Console.WriteLine("\nDelete");
@@ -59,9 +51,9 @@ getId = Convert.ToInt32(Console.ReadLine());
 repository.Delete(getId - 1);
 
 Console.WriteLine("Обновленный список студентов:");
-foreach (Student student in studentsList)
+for (int i = 0; i < studentsList.Count; i++)
 {
-    Console.WriteLine($"Id {student.Id}| {student.LastName} {student.FirstName} {student.Group}");
+    Console.WriteLine($"Id {studentsList.IndexOf(studentsList[i]) + 1}| {studentsList[i].LastName} {studentsList[i].FirstName} {studentsList[i].Group}");
 }
 
 //Update
@@ -81,7 +73,13 @@ Student updatedStudent = new Student { FirstName = firstName, LastName = lastNam
 repository.Update(getId - 1, updatedStudent);
 
 Student studentAfterUpdate = repository.GetById(getId);
-Console.WriteLine("Студент " + studentAfterUpdate.Id + " изменен");
+Console.WriteLine("Студент " + studentAfterUpdate.FirstName + " " + studentAfterUpdate.LastName + " изменен");
+
+Console.WriteLine("Обновленный список студентов:");
+for (int i = 0; i < studentsList.Count; i++)
+{
+    Console.WriteLine($"Id {studentsList.IndexOf(studentsList[i]) + 1}| {studentsList[i].LastName} {studentsList[i].FirstName} {studentsList[i].Group}");
+}
 
 //Find
 Console.WriteLine("\nFind");
@@ -89,7 +87,8 @@ Console.WriteLine("\nFind");
 Console.WriteLine("Введите первую букву фамилии: ");
 char firstLetter = Convert.ToChar(Console.ReadLine());
 
-foreach (Student student in repository.Find(firstLetter))
+List<Student> findedStudents = repository.Find(firstLetter);
+for (int i = 0; i < findedStudents.Count; i++)
 {
-    Console.WriteLine($"Id {student.Id}| {student.LastName} {student.FirstName} {student.Group}");
+    Console.WriteLine($"Id {studentsList.IndexOf(findedStudents[i]) + 1}| {findedStudents[i].LastName} {findedStudents[i].FirstName} {findedStudents[i].Group}");
 }
